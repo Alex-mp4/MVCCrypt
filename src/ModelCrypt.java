@@ -3,9 +3,9 @@ import javax.swing.*;
 class CompressModel {
     private String messageValue;
 
-    public void main(String[] args) {
-        String message = JOptionPane.showInputDialog("Message");
-        String cryptOrDecrypt = JOptionPane.showInputDialog("Crypt or decrypt");
+    public static void main(String[] args) {
+        String message = JOptionPane.showInputDialog("Message"); //take message from view-textfield
+        String cryptOrDecrypt = JOptionPane.showInputDialog("Crypt or decrypt"); //radiobutton choice
         String cmess = "";
         int key = '(';
         int x = 0;
@@ -24,7 +24,8 @@ class CompressModel {
                 x = 0;
             }
         }
-        messageValue = cmess;
+        System.out.println(cmess);
+        //messageValue = cmess;
     }
 
     private static int descrobbler(int key, int c) {
