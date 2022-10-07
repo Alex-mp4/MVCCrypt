@@ -2,68 +2,80 @@ import javax.swing.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
-
 class CompressModel {
     private String messageValue;
 
     public static void main(String[] args) {
         String message = JOptionPane.showInputDialog("Message"); //take message from view-textfield
         String IKey = ")";
+        String hexMess = null;
+
+        String fileNameForCrypt = "cryptmessage.txt";
+        File foutCrypt = new File(fileNameForCrypt);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(foutCrypt);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
         String KeyFin = getKey(message, IKey);
         String MessFin = messageBin(message);
 
+        String convertHex = JOptionPane.showInputDialog("Is your input in hexadecimal");
         String cryptOrDecrypt = JOptionPane.showInputDialog("Crypt or decrypt"); //radiobutton choice
+
         String cmess = "";
-        int x = 0;
-        char v = 0;
-        for (int i = 0; i < MessFin.length(); i++) {
-            int c = MessFin.charAt(x);
-            int k = KeyFin.charAt(x);
-            if (cryptOrDecrypt == "crypt") {
-                v = (char)scrobbler(c, k);
+        if(convertHex == "yes") {
+            String asciiOfHex = hexToAscii(message);
+            try {
+                bw.write(asciiOfHex);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else {
-                v = (char)descrobbler(k, c);
+            System.out.println(asciiOfHex);
+        }
+        else {
+            int x = 0;
+            char v = 0;
+            for (int i = 0; i < MessFin.length(); i++) {
+                int c = MessFin.charAt(x);
+                int k = KeyFin.charAt(x);
+                if (cryptOrDecrypt == "crypt") {
+                    v = (char)scrobbler(c, k);
+                }
+                else {
+                    v = (char)descrobbler(k, c);
+                }
+
+                cmess = cmess + v;
+                x++;
+                if (x > message.length()) {
+                    x = 0;
+                }
             }
 
-            cmess = cmess + v;
-            x++;
-            if (x > message.length()) {
-                x = 0;
+            try {
+                hexMess = toHexadecimal(message);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
+
+            String output = getMessageValue(cmess);
+            try {
+                bw.write(output);
+                bw.newLine();
+                bw.write(hexMess);
+                bw.flush();
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(cmess);
+            System.out.println(hexMess);
         }
-
-        String hexMess = null;
-        
-        try {
-            hexMess = toHexadecimal(cmess);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-
-        //fix the god-damn filereader below
-
-        File fout = new File("cryptmessage.txt");
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(fout);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-        String output = getMessageValue(cmess);
-        try {
-            bw.write(output);
-            bw.newLine();
-            bw.write(hexMess);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(cmess);
     }
 
     private static int descrobbler(int k, int c) {
@@ -99,5 +111,14 @@ class CompressModel {
     {
         byte[] myBytes = cmess.getBytes("UTF-8");
         return DatatypeConverter.printHexBinary(myBytes);
+    }
+
+    private static String hexToAscii(String hexMess) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < hexMess.length(); i+=2) {
+            String str = hexMess.substring(i, i+2);
+            output.append((char)Integer.parseInt(str, 16));
+        }
+        return output.toString();
     }
 }
