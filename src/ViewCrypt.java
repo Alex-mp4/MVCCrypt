@@ -3,12 +3,13 @@ import java.awt.event.ActionListener;
 
 public class ViewCrypt {
 
-    private JTextField textField1 = new JTextField("Input");
-    private JTextArea textArea1 = new JTextArea("Output");
-    private JButton button1 = new JButton("");
-    private JRadioButton radioButton1 = new JRadioButton("Crypt");
-    private JRadioButton radioButton2 = new JRadioButton("Decrypt");
-    private JRadioButton radioButton3 = new JRadioButton("Hexadecimal");
+    private JPanel panel;
+    private JTextField textField1;
+    private JTextArea textArea1;
+    private JButton button1;
+    private JRadioButton radioButton1;
+    private JRadioButton radioButton2;
+    private JRadioButton radioButton3;
 
     //JRadioButton cryptButton = radioButtonCrypt;
     //JRadioButton decryptButton = radioButtonDeCrypt;
@@ -17,20 +18,27 @@ public class ViewCrypt {
     //buttonGroup.add(radioButtonCrypt);
     //buttonGroup.add(decryptButton);
 
-    ViewCrypt() {
-        JPanel panel = new JPanel();
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //this.setSize(600, 200);
-        panel.add(textField1);
-        panel.add(textArea1);
-        panel.add(button1);
-        panel.add(radioButton1);
-        panel.add(radioButton2);
-        panel.add(radioButton3);
-        //this.add(panel);
+    public ViewCrypt() {
+
+    }
+
+    public JPanel getPanel() {
+        return panel;
     }
 
     public String getTextField() {
         return textField1.getText();
+    }
+
+    public void setCrypt(String cmess) {
+        textArea1.setText(cmess);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("View");
+        frame.setContentPane(new ViewCrypt().panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }

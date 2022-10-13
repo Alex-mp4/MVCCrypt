@@ -5,20 +5,12 @@ import java.io.*;
 class CompressModel {
     private String messageValue;
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         String message = JOptionPane.showInputDialog("Message"); //take message from view-textfield
         String IKey = ")";
         String hexMess = null;
 
-        String fileNameForCrypt = "cryptmessage.txt";
-        File foutCrypt = new File(fileNameForCrypt);
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(foutCrypt);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+        CompressModel cryptModel = new CompressModel();
 
         String KeyFin = getKey(message, IKey);
         String MessFin = messageBin(message);
@@ -28,13 +20,7 @@ class CompressModel {
 
         String cmess = "";
         if(convertHex == "yes") {
-            String asciiOfHex = hexToAscii(message);
-            try {
-                bw.write(asciiOfHex);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println(asciiOfHex);
+            CompressModel.hexWriter;
         }
         else {
             int x = 0;
@@ -62,19 +48,7 @@ class CompressModel {
                 e.printStackTrace();
             }
 
-            String output = getMessageValue(cmess);
-            try {
-                bw.write(output);
-                bw.newLine();
-                bw.write(hexMess);
-                bw.flush();
-                bw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println(cmess);
-            System.out.println(hexMess);
+            CompressModel.fileWriter;
         }
     }
 
@@ -120,5 +94,51 @@ class CompressModel {
             output.append((char)Integer.parseInt(str, 16));
         }
         return output.toString();
+    }
+
+    public void hexWriter(String message) {
+        //String fileNameForCrypt = "cryptmessage.txt";
+        File foutCrypt = new File("cryptmessage.txt");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(foutCrypt);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+        String asciiOfHex = hexToAscii(message);
+        try {
+            bw.write(asciiOfHex);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(asciiOfHex);
+    }
+
+    public void fileWriter(String cmess) {
+        String fileNameForCrypt = "cryptmessage.txt";
+        File foutCrypt = new File(fileNameForCrypt);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(foutCrypt);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+        String output = getMessageValue(cmess);
+        try {
+            bw.write(output);
+            bw.newLine();
+            //bw.write(hexMess);
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(cmess);
+        System.out.println(hexMess);
     }
 }
