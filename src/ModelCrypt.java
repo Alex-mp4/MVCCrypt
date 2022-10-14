@@ -5,7 +5,7 @@ import java.io.*;
 class CompressModel {
     private String messageValue;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         String message = JOptionPane.showInputDialog("Message"); //take message from view-textfield
         String IKey = ")";
         String hexMess = null;
@@ -15,12 +15,16 @@ class CompressModel {
         String KeyFin = getKey(message, IKey);
         String MessFin = messageBin(message);
 
-        String convertHex = JOptionPane.showInputDialog("Is your input in hexadecimal");
+        CompressModel.cryptString(MessFin, KeyFin, message);
+    }
+
+    public static void cryptString(String MessFin, String KeyFin, String message) {
+        //String convertHex = JOptionPane.showInputDialog("Is your input in hexadecimal");
         String cryptOrDecrypt = JOptionPane.showInputDialog("Crypt or decrypt"); //radiobutton choice
 
         String cmess = "";
-        if(convertHex == "yes") {
-            CompressModel.hexWriter;
+        if("yo" == "yes") {
+            CompressModel.hexWriter(message);
         }
         else {
             int x = 0;
@@ -41,14 +45,14 @@ class CompressModel {
                     x = 0;
                 }
             }
-
+/*
             try {
                 hexMess = toHexadecimal(message);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
-            CompressModel.fileWriter;
+*/
+            CompressModel.fileWriter(cmess);
         }
     }
 
@@ -96,7 +100,7 @@ class CompressModel {
         return output.toString();
     }
 
-    public void hexWriter(String message) {
+    public static void hexWriter(String message) {
         //String fileNameForCrypt = "cryptmessage.txt";
         File foutCrypt = new File("cryptmessage.txt");
         FileOutputStream fos = null;
@@ -116,7 +120,7 @@ class CompressModel {
         System.out.println(asciiOfHex);
     }
 
-    public void fileWriter(String cmess) {
+    public static void fileWriter(String cmess) {
         String fileNameForCrypt = "cryptmessage.txt";
         File foutCrypt = new File(fileNameForCrypt);
         FileOutputStream fos = null;
@@ -139,6 +143,6 @@ class CompressModel {
         }
 
         System.out.println(cmess);
-        System.out.println(hexMess);
+        //System.out.println(hexMess);
     }
 }

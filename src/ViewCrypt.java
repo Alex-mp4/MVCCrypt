@@ -10,16 +10,11 @@ public class ViewCrypt {
     private JRadioButton radioButton1;
     private JRadioButton radioButton2;
     private JRadioButton radioButton3;
-
-    //JRadioButton cryptButton = radioButtonCrypt;
-    //JRadioButton decryptButton = radioButtonDeCrypt;
-
-    //ButtonGroup buttonGroup = new ButtonGroup();
-    //buttonGroup.add(radioButtonCrypt);
-    //buttonGroup.add(decryptButton);
+    ButtonGroup buttonGroup = new ButtonGroup();
 
     public ViewCrypt() {
-
+        buttonGroup.add(radioButton1);
+        buttonGroup.add(radioButton2);
     }
 
     public JPanel getPanel() {
@@ -40,5 +35,9 @@ public class ViewCrypt {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setCryptListener(ActionListener cryptListener) {
+        button1.addActionListener(cryptListener);
     }
 }
