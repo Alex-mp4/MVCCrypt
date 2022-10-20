@@ -1,3 +1,5 @@
+package MVCCrypt;
+
 import javax.swing.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
@@ -6,7 +8,7 @@ class CompressModel {
     private String messageValue;
 
     public static void main(String[] args) {
-        String message = JOptionPane.showInputDialog("Message"); //take message from view-textfield
+        String message = setMessage();
         String IKey = ")";
         String hexMess = null;
 
@@ -17,6 +19,8 @@ class CompressModel {
 
         CompressModel.cryptString(MessFin, KeyFin, message);
     }
+
+
 
     public static void cryptString(String MessFin, String KeyFin, String message) {
         //String convertHex = JOptionPane.showInputDialog("Is your input in hexadecimal");
@@ -64,7 +68,7 @@ class CompressModel {
         return (c^k);
     }
 
-    private static String getMessageValue(String cmess) {
+    public String getMessageValue(String cmess) {
         String messageValue = cmess;
         return messageValue;
     }
@@ -131,9 +135,8 @@ class CompressModel {
         }
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
-        String output = getMessageValue(cmess);
         try {
-            bw.write(output);
+            bw.write(cmess);
             bw.newLine();
             //bw.write(hexMess);
             bw.flush();
@@ -145,4 +148,5 @@ class CompressModel {
         System.out.println(cmess);
         //System.out.println(hexMess);
     }
+
 }
