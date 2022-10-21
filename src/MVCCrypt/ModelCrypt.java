@@ -5,28 +5,37 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 
 class CompressModel {
-    private String messageValue;
+    private String message;
+    private String KeyFin;
+    private String MessFin;
+    private String cmess;
+
 
     public static void main(String[] args) {
-        String message = setMessage();
-        String IKey = ")";
         String hexMess = null;
 
         CompressModel cryptModel = new CompressModel();
+        cryptModel.setMessage("HEJ");
+        cryptModel.setKey(")");
 
-        String KeyFin = getKey(message, IKey);
-        String MessFin = messageBin(message);
+        //MessFin = messageBin(message);
 
-        CompressModel.cryptString(MessFin, KeyFin, message);
+        cryptModel.cryptString();
     }
 
+    private void setMessage(String message) {
+        this.message = message;
+    }
 
+    private void setKey(String KeyFin) {
+        this.KeyFin = KeyFin;
+    }
 
-    public static void cryptString(String MessFin, String KeyFin, String message) {
+    public void cryptString() {
         //String convertHex = JOptionPane.showInputDialog("Is your input in hexadecimal");
         String cryptOrDecrypt = JOptionPane.showInputDialog("Crypt or decrypt"); //radiobutton choice
 
-        String cmess = "";
+        cmess = "";
         if("yo" == "yes") {
             CompressModel.hexWriter(message);
         }
@@ -68,16 +77,15 @@ class CompressModel {
         return (c^k);
     }
 
-    public String getMessageValue(String cmess) {
-        String messageValue = cmess;
-        return messageValue;
+    public String getMessageValue() {
+        return cmess;
     }
 
-    private static String getKey(String message, String IKey) {
+    private static String getKey(String KeyFin, String message) {
         for (int o = 1; o < message.length(); o++) {
-            IKey = IKey + IKey;
+            KeyFin = KeyFin + KeyFin;
         }
-        return IKey;
+        return KeyFin;
     }
 
     private static String messageBin(String message) {
